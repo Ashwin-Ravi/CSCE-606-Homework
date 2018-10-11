@@ -1,0 +1,63 @@
+Using the default profile...
+Feature: Manage categories
+  As a blog administrator
+  In order to categorize articles
+  I want to be able to manage categories
+
+  Background:                            # features/categories.feature:6
+    Given the blog is set up             # features/step_definitions/web_steps.rb:34
+    And I am logged into the admin panel # features/step_definitions/web_steps.rb:46
+    When I follow "Categories"           # features/step_definitions/web_steps.rb:80
+
+  Scenario: Link Intact                  # features/categories.feature:11
+    Then I should see "Categories"       # features/step_definitions/web_steps.rb:129
+    And I should see "Permalink"         # features/step_definitions/web_steps.rb:129
+    And I should see "General"           # features/step_definitions/web_steps.rb:129
+
+  Scenario: create categories                            # features/categories.feature:16
+    Given I am on the new categories page                # features/step_definitions/web_steps.rb:68
+    And I fill in "category_name" with "new1"            # features/step_definitions/web_steps.rb:84
+    And I fill in "category_keywords" with "new_key"     # features/step_definitions/web_steps.rb:84
+    And I fill in "category_description" with "new_desc" # features/step_definitions/web_steps.rb:84
+    And I press "Save"                                   # features/step_definitions/web_steps.rb:76
+    Then I should see "new1"                             # features/step_definitions/web_steps.rb:129
+
+Feature: Create Blog
+  As an author
+  In order to gift my thoughts to the world
+  I want to create a blog
+
+  Scenario: Create blog page shown      # features/create_blog.feature:6
+    Given I am on the home page         # features/step_definitions/web_steps.rb:68
+    Then I should see "Welcome"         # features/step_definitions/web_steps.rb:129
+    And I should see "My Shiny Weblog!" # features/step_definitions/web_steps.rb:129
+
+  Scenario: Create blog page not shown when blog created # features/create_blog.feature:11
+    Given the blog is set up                             # features/step_definitions/web_steps.rb:34
+    When I am on the home page                           # features/step_definitions/web_steps.rb:68
+    Then I should not see "My Shiny Weblog!"             # features/step_definitions/web_steps.rb:147
+    And I should see "Teh Blag"                          # features/step_definitions/web_steps.rb:129
+
+Feature: Write Articles
+  As a blog administrator
+  In order to share my thoughts with the world
+  I want to be able to add articles to my blog
+
+  Background:                            # features/write_article.feature:6
+    Given the blog is set up             # features/step_definitions/web_steps.rb:34
+    And I am logged into the admin panel # features/step_definitions/web_steps.rb:46
+
+  Scenario: Successfully write articles                                  # features/write_article.feature:10
+    Given I am on the new article page                                   # features/step_definitions/web_steps.rb:68
+    When I fill in "article_title" with "Foobar"                         # features/step_definitions/web_steps.rb:84
+    And I fill in "article__body_and_extended_editor" with "Lorem Ipsum" # features/step_definitions/web_steps.rb:84
+    And I press "Publish"                                                # features/step_definitions/web_steps.rb:76
+    Then I should be on the admin content page                           # features/step_definitions/web_steps.rb:254
+    When I go to the home page                                           # features/step_definitions/web_steps.rb:72
+    Then I should see "Foobar"                                           # features/step_definitions/web_steps.rb:129
+    When I follow "Foobar"                                               # features/step_definitions/web_steps.rb:80
+    Then I should see "Lorem Ipsum"                                      # features/step_definitions/web_steps.rb:129
+
+5 scenarios (5 passed)
+33 steps (33 passed)
+0m2.964s
